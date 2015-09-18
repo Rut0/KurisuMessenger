@@ -47,6 +47,7 @@ public class ChatActivity extends SherlockActivity {
         if (text.length() > 0) {
             database.addMessage("ME", text);
             updateMessage();
+            textField.setText("");
         }
     }
 
