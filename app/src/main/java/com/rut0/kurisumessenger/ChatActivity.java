@@ -1,29 +1,32 @@
 package com.rut0.kurisumessenger;
 
-import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.EditText;
-import android.widget.ListView;
 
-import com.actionbarsherlock.app.SherlockActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
-import com.rut0.kurisumessenger.chat.ChatCursorAdapter;
 import com.rut0.kurisumessenger.chat.ChatDatabase;
+import com.rut0.kurisumessenger.chat.ChatRecyclerAdapter;
 import com.rut0.kurisumessenger.helper.Extensions;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ChatActivity extends SherlockActivity {
+public class ChatActivity extends AppCompatActivity {
     @Bind(R.id.messageList)
-    ListView messageList;
+    //ListView messageList;
+            RecyclerView messageList;
 
     @Bind(R.id.text)
     EditText textField;
 
-    private ChatCursorAdapter adapter;
+    //private ChatCursorAdapter adapter;
+    private ChatRecyclerAdapter adapter;
     private ChatDatabase database;
 
     @Override
@@ -33,11 +36,15 @@ public class ChatActivity extends SherlockActivity {
         ButterKnife.bind(this);
 
         database = new ChatDatabase(this, "mTest");
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+        adapter = new ChatRecyclerAdapter(database.getMessagesL());
+
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             adapter = new ChatCursorAdapter(this, database.getMessages(), 0);
         } else {
             adapter = new ChatCursorAdapter(this, database.getMessages());
-        }
+        }*/
+        messageList.setLayoutManager(new LinearLayoutManager(this));
+        messageList.setItemAnimator(new DefaultItemAnimator());
         messageList.setAdapter(adapter);
     }
 
@@ -55,11 +62,12 @@ public class ChatActivity extends SherlockActivity {
         Extensions.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                /*if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
                     adapter.swapCursor(database.getMessages());
                 } else {
                     adapter.changeCursor(database.getMessages());
-                }
+                }*/
+                adapter.updateData(database.getMessagesL());
             }
         });
     }
@@ -67,7 +75,7 @@ public class ChatActivity extends SherlockActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getSupportMenuInflater().inflate(R.menu.menu_chat, menu);
+        getMenuInflater().inflate(R.menu.menu_chat, menu);
         return true;
     }
 

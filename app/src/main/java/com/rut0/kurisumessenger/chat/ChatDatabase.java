@@ -6,6 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Winston on 9/17/2015.
  */
@@ -32,6 +35,18 @@ public class ChatDatabase {
             database = _helper.open();
         c = database.query(TABLE_NAME, new String[]{COLUMN_ID, COLUMN_NAME, COLUMN_MESSAGE}, null, null, null, null, null);
         return c;
+    }
+
+    public List<MessageData> getMessagesL() {
+        Cursor c = getMessages();
+        List<MessageData> msgs = new ArrayList<MessageData>();
+        while (c.moveToNext()) {
+            String name = c.getString(c.getColumnIndex(COLUMN_NAME));
+            String message = c.getString(c.getColumnIndex(COLUMN_MESSAGE));
+            MessageData data = new MessageData(name, message);
+            msgs.add(data);
+        }
+        return msgs;
     }
 
     public boolean addMessage(String name, String message) {
