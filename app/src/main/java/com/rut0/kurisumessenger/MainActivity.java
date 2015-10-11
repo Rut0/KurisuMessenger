@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.button)
     public void buttonClick() {
-        Intent intent = new Intent(this, ChatActivity.class);
+        Intent intent = new Intent(this, ProfileActivity.class);
         startActivity(intent);
     }
 }

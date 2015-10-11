@@ -30,10 +30,14 @@ public class ChatDatabase {
     }
 
     public Cursor getMessages() {
+        return getMessages(-1);
+    }
+
+    public Cursor getMessages(int limit) {
         Cursor c = null;
         if (database == null)
             database = _helper.open();
-        c = database.query(TABLE_NAME, new String[]{COLUMN_ID, COLUMN_NAME, COLUMN_MESSAGE}, null, null, null, null, null);
+        c = database.query(TABLE_NAME, new String[]{COLUMN_ID, COLUMN_NAME, COLUMN_MESSAGE}, null, null, null, null, null, (limit > 0 ? limit + "" : null));
         return c;
     }
 

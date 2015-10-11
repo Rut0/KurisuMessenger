@@ -1,10 +1,13 @@
 package com.rut0.kurisumessenger;
 
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.transition.Slide;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -33,6 +36,7 @@ public class ChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+        setUpAnimation();
         ButterKnife.bind(this);
 
         database = new ChatDatabase(this, "mTest");
@@ -46,6 +50,13 @@ public class ChatActivity extends AppCompatActivity {
         messageList.setLayoutManager(new LinearLayoutManager(this));
         messageList.setItemAnimator(new DefaultItemAnimator());
         messageList.setAdapter(adapter);
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void setUpAnimation() {
+        Slide slide = new Slide();
+        slide.setDuration(500);
+        getWindow().setReturnTransition(slide);
     }
 
     @OnClick(R.id.sendButton)

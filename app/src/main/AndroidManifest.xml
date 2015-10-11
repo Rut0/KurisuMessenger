@@ -24,7 +24,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.rut0.kurisumessenger.MainActivity" />
         </activity>
-
+        <activity
+            android:name=".ProfileActivity"
+            android:theme="@style/AppTheme.Toolbar"
+            android:label="@string/title_activity_profile"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.rut0.kurisumessenger.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
